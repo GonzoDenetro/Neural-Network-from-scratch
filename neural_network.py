@@ -1,16 +1,13 @@
 import numpy as np
 
-x1 = 0.3 #Inputs
-x2 = 0.6 #Inputs
+x = np.around(np.random.uniform(size=4), decimals=2)
 
-weights = np.around(np.random.uniform(size=2), decimals=2)
+weights = np.around(np.random.uniform(size=4), decimals= 2)
 
 biases = np.around(np.random.uniform(size=1), decimals=2)
 
-z = (x1 * weights[0]) + (x2 * weights[1]) + biases[0] #Weighted sum
+def weighted_sum(x, weights, biases):
+    z =  np.sum(x * weights) + biases
+    return z
 
-print(f'Weighted sum: {z}')
-
-a = 1/ (1+ np.exp(-z)) #Activation Function
-
-print(f'Activation Funtion Output: {a}')
+print(weighted_sum(x, weights, biases))
