@@ -1,15 +1,18 @@
 import numpy as np
 
-x = np.around(np.random.uniform(size=4), decimals=2)
+x = np.around(np.random.uniform(size=2), decimals=2)
 
 weights = np.around(np.random.uniform(size=4), decimals= 2)
+print(x.shape[0])
 
 biases = np.around(np.random.uniform(size=1), decimals=2)
 
+#SUM OF WEIGHTS
 def weighted_sum(x, weights, biases):
     z =  np.sum(x * weights) + biases
     return z
 
+#ACTIVATION FUNCTION
 def activation_function(weights_sum, activation_type):
     if activation_type == 'sigmoid':
         return 1 / (1 + np.exp(-weights_sum))
@@ -21,10 +24,17 @@ def activation_function(weights_sum, activation_type):
         else:
             return 0
 
-activation = ['sigmoid', 'tanh', 'relu']
+def initialize(n_layers, n_neurons, x_inputs):
+    network = {}
+    network['weights'] = np.random.rand(n_neurons, x_inputs.shape[0])
+    network['biases'] = np.random.rand(n_neurons)
+    
+    network['layers'] = n_layers
+    print(network)
+    
 
+create_layer(1, 3, x)
+    
+    
 
-for type in activation:
-    z = weighted_sum(x, weights, biases)
-    print(f'{type} - {activation_function(z, type)}')
     
