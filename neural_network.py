@@ -2,9 +2,6 @@ import numpy as np
 
 x = np.around(np.random.uniform(size=2), decimals=2)
 
-weights = np.around(np.random.uniform(size=4), decimals= 2)
-
-biases = np.around(np.random.uniform(size=1), decimals=2)
 
 #SUM OF WEIGHTS
 def weighted_sum(x, weights, biases):
@@ -23,18 +20,13 @@ def activation_function(weights_sum, activation_type):
         else:
             return 0
 
-def initialize(n_layers, n_neurons, x_inputs):
-    network = {}
-    network['weights'] = np.random.rand(n_neurons, x_inputs.shape[0])
-    network['biases'] = np.random.rand(n_neurons)
-    
-    network['layers'] = n_layers
-
-    
+#This function represents the operation that a neuron performs    
 def neuron(inputs, weights, biases):
     z = weighted_sum(inputs, weights, biases)
     return activation_function(z, 'sigmoid')
 
+
+#This function creates the parameters that the layer will need, the parameters depends on the number of neurons and the inputs we have
 def layer_ouput(n_neurons, inputs):
     weights = np.random.rand(n_neurons, inputs.shape[0])
     biases = np.random.rand(n_neurons)
@@ -65,13 +57,10 @@ def network(n_layers, inputs, n_neurons):
             layer_output = l_ouput[2]
             layer['output'] = layer_output
         my_network[layer_name] = layer 
-        return my_network       
+    return my_network       
             
         
-
-print(''*20)
-print(network(3, x, [3, 3, 2]))
-    
-    
+n_network = network(n_layers=3, inputs=x, n_neurons=[3, 3, 2])
+print(n_network['layer-2']['output'])
 
     
