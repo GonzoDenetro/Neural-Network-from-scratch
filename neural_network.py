@@ -40,27 +40,22 @@ def network(n_layers, inputs, n_neurons):
         layer = {}
         layer_name = f'layer-{i}'
         layer['name'] = layer_name
+        
         if i == 0:
             l_ouput = layer_ouput(n_neurons[i], inputs)
-            l_weights = l_ouput[0]
-            layer['weights'] = l_weights
-            l_biases = l_ouput[1]
-            layer['biases'] = l_biases
-            layer_output = l_ouput[2]
-            layer['output'] = layer_output
         else:
-            l_ouput = layer_ouput(n_neurons[i], layer_output)
-            l_weights = l_ouput[0]
-            layer['weights'] = l_weights
-            l_biases = l_ouput[1]
-            layer['biases'] = l_biases
-            layer_output = l_ouput[2]
-            layer['output'] = layer_output
-        my_network[layer_name] = layer 
+            l_ouput = layer_ouput(n_neurons[i], result) #The output of the past layer is the input for the next layer
+        
+        layer['weights'] = l_ouput[0]
+        layer['biases'] = l_ouput[1]
+        result = l_ouput[2]
+        layer['output-a{i}'] = result
+        my_network[layer_name] = layer
+        
     return my_network       
             
         
 n_network = network(n_layers=3, inputs=x, n_neurons=[3, 3, 2])
-print(n_network['layer-2']['output'])
+print(n_network)
 
     
