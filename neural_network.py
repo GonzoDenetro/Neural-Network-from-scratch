@@ -1,11 +1,14 @@
 import numpy as np
 
+np.random.seed(42)
+
+
 x = np.around(np.random.uniform(size=2), decimals=2)
 
 
 #SUM OF WEIGHTS
 def weighted_sum(x, weights, biases):
-    z =  np.sum(x.dot(weights.T)) + biases
+    z =  x.dot(weights.T) + biases
     return z
 
 #ACTIVATION FUNCTION
@@ -28,6 +31,8 @@ def neuron(inputs, weights, biases):
 
 #This function creates the parameters that the layer will need, the parameters depends on the number of neurons and the inputs we have
 def layer_ouput(n_neurons, inputs):
+    print(f'inputs shape: {inputs.shape}')
+    print(f'weights shape: {n_neurons}, {inputs.shape[0]}')
     weights = np.random.rand(n_neurons, inputs.shape[0])
     biases = np.random.rand(n_neurons)
     output = neuron(inputs, weights, biases)
@@ -56,6 +61,6 @@ def network(n_layers, inputs, n_neurons):
             
         
 n_network = network(n_layers=3, inputs=x, n_neurons=[3, 3, 2])
-print(n_network['layer-0'])
+print(n_network)
 
     
