@@ -6,6 +6,7 @@ np.random.seed(42)
 class Layer():
     def __init__(self, neurons, n_inputs, activation):
         self.neurons = neurons
+        self.x_inputs = None
         self.activation = activation
         self.weights = np.random.rand(neurons, n_inputs)
         self.biases = np.random.rand(neurons)
@@ -28,7 +29,8 @@ class Layer():
             print('No activation Function Found')
     
     def forward_propagation(self, x_inputs):
-        weights_sum = self.weighted_sum(x_inputs)
+        self.x_inputs = x_inputs
+        weights_sum = self.weighted_sum(self.x_inputs)
         self._values = self.activation_function(weights_sum)
 
     def values(self):
@@ -77,29 +79,37 @@ class NeuralNetwork():
     
     def backpropgation(self):
         last_layer = len(self._layers) - 1
-        print(len(self._layers))
         output = self.output()
         learning_rate = 0.001
+        delta = self.cross_entropy_derivate()
         
         for i in range(last_layer, -1, -1):
-            if i == last_layer:
-                de_cost = self.cross_entropy_derivate()
+            print(f'--------------LAYER {i}-----------------')
+            
+            if self._layers[i].activation == 'relu':
+                de_activation = 1
+            elif self._layers[i].activation == 'softmax':
                 de_activation = self._layers[i].softmax_derivate(output)
-                inputs = self._layers[i-1].values()
-                print(f'Inputs Layer: {i}, shape {inputs.shape}')
-                print(self._layers[i-1].values())
-                print(f'derivate cost: {de_cost}')
-                print(f'derivate activation: {de_activation}')
-                layer_error = np.dot(de_cost, de_activation)
-                print(f'Layer error: {layer_error}')
-                gradient = np.dot(layer_error, inputs)
-                print(f'Gradient: {gradient}')
-                weights = self._layers[i].weights
-                print(f'Weights: {weights}')
-                tetha = self._layers[i].weights - learning_rate*gradient
-                print(f'NEW thetha: {tetha}')
-            else:
-                pass
+            
+            input_to_layer = self.x_inputs if i == 0 else self._layers[i-1].values()
+            
+            delta = delta * de_activation
+            delta_weights = np.outer(delta, input_to_layer)
+            
+            print(f'Weights: {self._layers[i].weights}')
+            
+            #Gradient Descent
+            self._layers[i].weights = self._layers[i].weights - (learning_rate*delta_weights)
+            self._layers[i].biases -= learning_rate * delta
+            
+            print(f'Weights New: {self._layers[i].weights}')
+            
+            #Backpropagation (next layer)
+            delta =  self._layers[i].weights.T.dot(delta)
+            
+                            
+            
+            
 
 x = np.around(np.random.uniform(size=2), decimals=2)
 
@@ -120,4 +130,4 @@ print(f'Loss: {network.loss_function()}')
 network.backpropgation()
 #print(f'Tetha: {network.backpropgation()}')
 
-print(f'Layer 1 OUTPUT {layer_1._values}') 
+#print(f'Layer 1 OUTPUT {layer_1._values}') 
