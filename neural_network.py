@@ -84,7 +84,7 @@ class NeuralNetwork():
         delta = self.cross_entropy_derivate()
         
         for i in range(last_layer, -1, -1):
-            print(f'--------------LAYER {i}-----------------')
+            #print(f'--------------LAYER {i}-----------------')
             
             if self._layers[i].activation == 'relu':
                 de_activation = 1
@@ -96,38 +96,21 @@ class NeuralNetwork():
             delta = delta * de_activation
             delta_weights = np.outer(delta, input_to_layer)
             
-            print(f'Weights: {self._layers[i].weights}')
+            #print(f'Weights: {self._layers[i].weights}')
             
             #Gradient Descent
             self._layers[i].weights = self._layers[i].weights - (learning_rate*delta_weights)
             self._layers[i].biases -= learning_rate * delta
             
-            print(f'Weights New: {self._layers[i].weights}')
+            #print(f'Weights New: {self._layers[i].weights}')
             
             #Backpropagation (next layer)
             delta =  self._layers[i].weights.T.dot(delta)
             
+    def train(self):
+        for i in range(1000):
+            self.propagate_network()
+            self.backpropgation()
+            #print(f'Loss: {network.loss_function()}')
                             
             
-            
-
-x = np.around(np.random.uniform(size=2), decimals=2)
-
-layer_1 = Layer(neurons=3, n_inputs=2,  activation='relu')
-layer_2 = Layer(neurons=3,  n_inputs=3, activation='relu')
-layer_3 = Layer(neurons=2, n_inputs=3, activation='softmax')
-
-network = NeuralNetwork(x_inputs=x, y_train=[0, 1])
-network.add_layer(layer_1)
-network.add_layer(layer_2)
-network.add_layer(layer_3)
-network.propagate_network()
-
-
-
-print(f'FINAL OUTPUT: {network.output()}')
-print(f'Loss: {network.loss_function()}')
-network.backpropgation()
-#print(f'Tetha: {network.backpropgation()}')
-
-#print(f'Layer 1 OUTPUT {layer_1._values}') 
