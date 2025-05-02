@@ -100,7 +100,8 @@ class NeuralNetwork():
             
             input_to_layer = self.x_inputs if i == 0 else self._layers[i-1].values()
             
-            delta = delta * de_activation
+            #delta = delta * de_activation
+            delta = self._output - self.y_train
             delta_weights = np.dot(delta.T, input_to_layer)
             
             #print(f'Weights: {self._layers[i].weights}')
