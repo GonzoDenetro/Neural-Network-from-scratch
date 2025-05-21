@@ -31,12 +31,9 @@ nn.add_layer(layer_1)
 nn.add_layer(layer_2)
 nn.add_layer(layer_3)
 nn.add_layer(layer_4)
+
 nn.train()
 
-for i in range(5):
-    index_real_value = encoder.inverse_transform(y_test[i].reshape(1, -1))
-    print(f'Expected value: {values[index_real_value[0][0]]}')
-    accuracy, index = nn.predict(X_test[i].reshape(1, -1))
-    print(f'{values[index]} with accuracy: {accuracy*100:.2f}%')
-    print('---'*30)
-    
+nn.predict(X_test)
+score = nn.score(y_test)
+print(f'Accuracy: {score*100}%')

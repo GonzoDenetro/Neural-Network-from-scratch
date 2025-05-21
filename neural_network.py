@@ -137,12 +137,22 @@ class NeuralNetwork():
             #if i % 1000 == 0:
              #   print(f'Loss: {self.loss_function()}')
     
-    def predict(self, x_test):
+        
+    def predict(self, x_test): 
         # if weights and biases are trained, we can predict the output of the neural network
         self.propagate_network(x_test)
-        values = list(self.output()[0])
-        value_predicted = max(values)
-        predicted_index = values.index(value_predicted)
-        return value_predicted, predicted_index
+    
+    
+    def score(self, y_test):
+        total_correct = 0
+        for i in range(len(y_test)):
+            predict_index = self.output()[i].tolist().index(max(self.output()[i]))
+            real_index = y_test[i].tolist().index(max(y_test[i]))
+            if predict_index == real_index:
+                total_correct +=1
+        
+        accuracy = total_correct / len(y_test)
+        return accuracy
+            
                             
             
