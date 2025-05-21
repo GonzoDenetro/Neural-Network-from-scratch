@@ -36,3 +36,10 @@ Each sample has 4 features:
 - Petal length
 - Petal width
 
+## Project Structure
+
+neural-network-from-scratch
+│
+├── neural_network.py # The code for the implementation of the neural network
+├── app.py # Script for testing the model with iris dataset
+├── README.md 
